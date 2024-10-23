@@ -1,0 +1,43 @@
+import json
+import os
+
+def format_json_file(file_path):
+    """
+    Reads a JSON file, formats it with indentation, and writes it back to the file.
+
+    Args:
+        file_path (str): Path to the JSON file.
+
+    Returns:
+        None
+    """
+    try:
+        with open(file_path, 'r') as f:
+            data = json.load(f)
+        
+        with open(file_path, 'w') as f:
+            json.dump(data, f, indent=4)
+        print(f"Formatted: {file_path}")
+
+    except Exception as e:
+        print(f"Failed to format {file_path}: {e}")
+
+def format_all_json_in_directory(directory_path):
+    """
+    Recursively formats all JSON files in a given directory.
+
+    Args:
+        directory_path (str): Path to the directory to search for JSON files.
+
+    Returns:
+        None
+    """
+    for root, dirs, files in os.walk(directory_path):
+        for file in files:
+            if file.endswith(".json"):
+                file_path = os.path.join(root, file)
+                format_json_file(file_path)
+
+# Example usage:
+directory_to_format = './'  # Replace with the directory you want to format
+format_all_json_in_directory(directory_to_format)
